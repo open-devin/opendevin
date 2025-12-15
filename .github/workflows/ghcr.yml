@@ -2,19 +2,12 @@ name: Publish Docker Image
 
 on:
   push:
-    branches: [ main ]
   workflow_dispatch:
     inputs:
       reason:
         description: 'Reason for manual trigger'
         required: true
         default: ''
-
-permissions:
-  contents: read
-  packages: write
-  id-token: write
-  actions: read
 
 jobs:
   ghcr_build_and_push:
@@ -32,16 +25,11 @@ jobs:
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
+        id: buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_PAT }}
+      - name: Log-in to ghcr.io
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build and push ${{ matrix.image }}
-        run: |
-          chmod +x ./containers/build.sh
-          ./containers/build.sh ${{ matrix.image }} --push --registry ghcr.io/open-devin
+        run: ./containers/build.sh ${{ matrix.image }} --push
