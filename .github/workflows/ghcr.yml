@@ -44,4 +44,4 @@ jobs:
       - name: Build and push ${{ matrix.image }}
         run: |
           chmod +x ./containers/build.sh
-          ./containers/build.sh ${{ matrix.image }} --push
+          ./containers/build.sh ${{ matrix.image }} --push --registry ghcr.io/${{ github.repository_owner }}

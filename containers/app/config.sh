@@ -1,2 +1,2 @@
-DOCKER_REPOSITORY=ghcr.io/open-devin/opendevin
+DOCKER_REPOSITORY=ghcr.io/dustinloring/opendevin
 DOCKER_BASE_DIR="."
