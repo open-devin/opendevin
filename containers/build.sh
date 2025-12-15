@@ -75,6 +75,13 @@ echo "Starting Docker build with args: $args"
 echo "Building from directory: $abs_base_dir"
 echo "Using Dockerfile: $abs_dir/Dockerfile"
 
+# First ensure the repository exists
+echo "Checking repository access..."
+echo $DOCKER_REPOSITORY
+
+# Test authentication
+docker pull $DOCKER_REPOSITORY:latest || echo "Repository may not exist yet, continuing..."
+
 if docker buildx build \
   $args \
   --platform $platforms \
