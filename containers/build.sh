@@ -1,5 +1,5 @@
-#!/usr/bin/bash
-set -eo pipefail
+#!/bin/bash
+#set -eo pipefail
 
 # Debug information
 echo "=== Build Script Debug Information ==="
