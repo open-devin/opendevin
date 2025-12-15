@@ -24,7 +24,7 @@ RUN apt-get update -y \
 
 COPY ./pyproject.toml ./poetry.lock ./
 RUN touch README.md
-RUN poetry install --without evaluation --no-root --with llama-index && rm -rf $POETRY_CACHE_DIR
+RUN poetry install --without evaluation --no-root --with llama-index --no-dev && rm -rf $POETRY_CACHE_DIR
 
 FROM python:3.12-slim as runtime
 
@@ -47,7 +47,6 @@ COPY --from=backend-builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY ./opendevin ./opendevin
 COPY ./agenthub ./agenthub
-RUN python opendevin/download.py # No-op to download assets
 
 COPY --from=frontend-builder /app/dist ./frontend/dist
 
